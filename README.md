@@ -6,7 +6,7 @@ Filter out noisy points from  geojson input.
 
 ## usage
 
-    npm install tidy-geojson
+    npm install geojson-tidy
 
 ## example
 
