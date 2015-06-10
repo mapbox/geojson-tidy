@@ -90,14 +90,14 @@ function tidy(geojson, options) {
 
     for (var i = 0; i < tidyLineString.length; i++) {
 
-        outputFeatures = JSON.stringify({
+        outputFeatures.push(JSON.stringify({
             "type": "Feature",
             "properties": {},
             "geometry": {
                 "type": "LineString",
                 "coordinates": tidyLineString[i]
             }
-        });
+        }));
 
     }
 
