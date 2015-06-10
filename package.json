@@ -1,0 +1,26 @@
+{
+  "name": "geojson-tidy",
+  "version": "0.0.1",
+  "description": "tidy up a geojson input by filtering out noisy point clusters",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mapbox/geojson-tidy.git"
+  },
+  "scripts": {
+    "test": ""
+  },
+  "keywords": [
+    "geojson",
+    "tidy",
+    "noise",
+    "filter"
+  ],
+  "author": "Arun Ganesh",
+  "license": "BSD-2-Clause",
+  "dependencies": "",
+  "devDependencies": ""
+}
