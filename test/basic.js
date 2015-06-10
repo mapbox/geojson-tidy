@@ -1,21 +1,17 @@
 var geojsonTidy = require('../'),
     test = require('tape'),
-    walkingJson = require('./walking-route.json');
+    walk1Json = require('./walk-1.json'),
+    walk2Json = require('./walk-2.json');
 
 test('geojson tidy', function(t) {
     
-    t.test('Defult 7m filter', function(t) {
-        t.equal(geojsonTidy.filter(walkingJson), true);
+    t.test('Walk 1', function(t) {
+        t.equal(geojsonTidy.filter(walk1Json), true);
         t.end();
     });
     
-    t.test('5m filter', function(t) {
-        t.equal(geojsonTidy.filter(walkingJson, {minDistance : 5}), true);
-        t.end();
-    });
-    
-    t.test('20m filter', function(t) {
-        t.equal(geojsonTidy.filter(walkingJson, {minDistance : 20}), true);
+    t.test('Walk 2', function(t) {
+        t.equal(geojsonTidy.filter(walk2Json), true);
         t.end();
     });
     
