@@ -29,7 +29,7 @@ function tidy(geojson, options) {
             useTimeFiltering = true;
         }
     } catch (e) {
-        console.log("Timestamps don't match or are missing, disabling time based filtering");
+        //        console.log("Timestamps don't match or are missing, disabling time based filtering");
     }
 
     //
