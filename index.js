@@ -1,10 +1,10 @@
 var extend = require('extend'),
     haversine = require('haversine');
 
-module.exports.filter = filter;
+module.exports.tidy = tidy;
 
-// Filter the input geojson 
-function filter(geojson, options) {
+// Public function
+function tidy(geojson, options) {
 
     var lineString = geojson.features[0].geometry.coordinates,
         timeStamp = geojson.features[0].properties.coordTimes,
@@ -12,14 +12,15 @@ function filter(geojson, options) {
 
     // Set the minimum distance in metres and time interval in seconds between successive coordinates
     var defaults = {
-        minDx: 7,
-        minTx: 5,
-        maxPoints: 100
-    }
-    var meanDistance = 0,
+            minDx: 7,
+            minTx: 5,
+            maxPoints: 100
+        },
+        meanDistance = 0,
         useTimeFiltering = false,
         filter = extend(defaults, options);
 
+    // Catch errors
     try {
         // If number of timestamps match number of points, use time filtering
         if (lineString.length == timeStamp.length) {
@@ -31,29 +32,27 @@ function filter(geojson, options) {
 
     // Loop through the coordinate array of the line to determine distance between consecutive points
     for (var i = 0; i < lineString.length - 1; i++) {
-
         var point1 = {
-            latitude: lineString[i][1],
-            longitude: lineString[i][0]
+                latitude: lineString[i][1],
+                longitude: lineString[i][0]
+            },
+            point2 = {
+                latitude: lineString[i + 1][1],
+                longitude: lineString[i + 1][0]
+            };
 
-        }
-        var point2 = {
-            latitude: lineString[i + 1][1],
-            longitude: lineString[i + 1][0]
-        }
-
-        if (useTimeFiltering) {
-            var time1 = new Date(timeStamp[i]),
-                time2 = new Date(timeStamp[i + 1])
-        }
-
-        // Calculate time difference between successive points in seconds
-        Tx = (time2 - time1) / 1000;
-
-        // Calculate haversine distance between 2 points in metres
-        Dx = haversine(point1, point2, {
+        // Calculate distance between successive points in metres
+        var Dx = haversine(point1, point2, {
             unit: 'km'
         }) * 1000;
+
+        // Calculate time difference between successive points in seconds
+        var Tx;
+        if (useTimeFiltering) {
+            var time1 = new Date(timeStamp[i]),
+                time2 = new Date(timeStamp[i + 1]),
+                Tx = (time2 - time1) / 1000;
+        }
 
         // Filter out points lesser than minimum distance
         if (Dx > filter.minDx) {
@@ -70,7 +69,6 @@ function filter(geojson, options) {
             //                tidyLineString.push(lineString[i]);
             //            }
         }
-
     }
 
     // Print IO stats

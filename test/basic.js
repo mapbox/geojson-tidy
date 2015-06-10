@@ -6,12 +6,12 @@ var geojsonTidy = require('../'),
 test('geojson tidy', function(t) {
     
     t.test('Walk 1', function(t) {
-        t.equal(geojsonTidy.filter(walk1Json), true);
+        t.equal(geojsonTidy.tidy(walk1Json), true);
         t.end();
     });
     
     t.test('Walk 2', function(t) {
-        t.equal(geojsonTidy.filter(walk2Json), true);
+        t.equal(geojsonTidy.tidy(walk2Json), true);
         t.end();
     });
     
