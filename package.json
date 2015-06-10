@@ -22,6 +22,7 @@
   "author": "Arun Ganesh",
   "license": "BSD-2-Clause",
   "dependencies": {
+    "extend": "^2.0.1",
     "haversine": "^1.0.0",
     "tape": "^4.0.0"
   },
