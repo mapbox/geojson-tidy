@@ -90,14 +90,14 @@ function tidy(geojson, options) {
 
     for (var i = 0; i < tidyLineString.length; i++) {
 
-        outputFeatures.push(JSON.stringify({
+        outputFeatures.push({
             "type": "Feature",
             "properties": {},
             "geometry": {
                 "type": "LineString",
                 "coordinates": tidyLineString[i]
             }
-        }));
+        });
 
     }
 
@@ -106,13 +106,12 @@ function tidy(geojson, options) {
         "features": outputFeatures
     });
 
-    console.log(outputFeatureCollection);
-
     //
     // DEBUG: Print IO stats 
+    //    console.log(outputFeatureCollection);
     //    console.log("Input points: " + lineString.length + "\nOutput points: " + tidyLineString.length + "\n");
 
 
-    return true;
+    return outputFeatureCollection;
 
 }
