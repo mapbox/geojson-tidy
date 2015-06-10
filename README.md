@@ -20,6 +20,15 @@ var tidy = geojsonTidy.geometry(obj);
 
 ### `geojsonTidy.geometry(obj)`
 
-Given a Geometry object, return contains a clean geometry with extra points filtered out. Invalid input will return `null`.
+Given a geojson object, return contains a tidy geometry with extra points filtered out based on default settings
 
+### `geojsonTidy.geometry(obj, options)`
 
+Pass options for the filter settings
+
+`{
+            minDx: 7,   // Minimum distance between points in metres
+            minTx: 5    // Minimum time interval between points in seconds
+        }`
+        
+        

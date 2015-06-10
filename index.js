@@ -14,10 +14,10 @@ function tidy(geojson, options) {
 
     // Set the minimum distance in metres and time interval in seconds between successive coordinates
     var defaults = {
-            minDx: 7,
-            minTx: 5,
-            maxPoints: 100
+            minDx: 7, // Minimum distance between points in metres
+            minTx: 5 // Minimum time interval between points in seconds
         },
+        maxPoints = 100,
         meanDistance = 0,
         useTimeFiltering = false,
         filter = extend(defaults, options);
@@ -77,7 +77,7 @@ function tidy(geojson, options) {
         }
 
         // Push a new array when maximum points is reached
-        if (i != 0 && i % defaults.maxPoints == 0) {
+        if (i !== 0 && i % maxPoints === 0) {
             tidyLineString.push([]);
         }
     }
@@ -88,7 +88,7 @@ function tidy(geojson, options) {
 
     var outputFeatures = [];
 
-    for (var i = 0; i < tidyLineString.length; i++) {
+    for (i = 0; i < tidyLineString.length; i++) {
 
         outputFeatures.push({
             "type": "Feature",
@@ -101,14 +101,14 @@ function tidy(geojson, options) {
 
     }
 
-    outputFeatureCollection = JSON.stringify({
+    var outputFeatureCollection = JSON.stringify({
         "type": "FeatureCollection",
         "features": outputFeatures
     });
 
     //
     // DEBUG: Print IO stats 
-    //    console.log(outputFeatureCollection);
+    console.log(outputFeatureCollection);
     //    console.log("Input points: " + lineString.length + "\nOutput points: " + tidyLineString.length + "\n");
 
 
