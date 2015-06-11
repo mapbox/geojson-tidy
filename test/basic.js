@@ -9,7 +9,7 @@ var geojsonTidy = require('../'),
 test('geojson tidy', function (t) {
 
     t.test('Can process a geometry with timestamps', function (t) {
-        t.equal(geojsonTidy.tidy(walk1Json), JSON.stringify(walk1JsonTidy));
+        t.equal(geojsonTidy.tidy(walk2Json), JSON.stringify(walk1JsonTidy));
         t.end();
     });
 

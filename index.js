@@ -49,7 +49,7 @@ function tidy(geojson, options) {
             {
                 "type": "Feature",
                 "properties": {
-                    coordTimes: []
+                    "coordTimes": []
                 },
                 "geometry": {
                     "type": "LineString",
@@ -128,6 +128,7 @@ function tidy(geojson, options) {
 
         if (tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.length % maxPoints === 0) {
             tidyOutput.features.push([]);
+            console.log(JSON.stringify(tidyOutput));
             tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.push(lineString[i]);
             if (useTimeFiltering) {
                 tidyOutput.features[tidyOutput.features.length - 1].properties.coordTimes.push(timeStamp[i]);
@@ -174,6 +175,6 @@ function tidy(geojson, options) {
 //    console.log("Input points: " + lineString.length + "\nOutput points: " + outputPoints + "\nPoints removed:" + outputCompression + "%\n");
 
     console.log(JSON.stringify(tidyOutput));
-    return tidyOutput;
+//    return tidyOutput;
 
 }
