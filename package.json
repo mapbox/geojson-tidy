@@ -20,7 +20,7 @@
     "filter"
   ],
   "author": "Arun Ganesh",
-  "license": "BSD-2-Clause",
+  "license": "MIT",
   "dependencies": {
     "extend": "^2.0.1",
     "fs": "0.0.2",
