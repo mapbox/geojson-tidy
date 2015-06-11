@@ -39,7 +39,7 @@ The output is valid geojson lineString feature object with timestamps stored as
     }
 ```
 
-## api
+## API
 
 ### `geojsonTidy.geometry(obj, [options])`
 
@@ -51,9 +51,9 @@ Allows you to set custom values for the filter
 
 ```js
 {
-            minDx: 7,   // Minimum distance between points in metres
-            minTx: 5    // Minimum time interval between points in seconds
-        }
+    minDx: 10,  // Minimum distance between points in metres
+    minTx: 5    // Minimum time interval between points in seconds
+}
 ```
         
         
