@@ -2,35 +2,45 @@
 
 # geojson-tidy
 
-Filter out noisy points from  geojson input.
+Filter out noisy points from an input geojson linestring based on:
+- Minumum sampling time between successive points (Default: 5 seconds)
+- Miniumum distance between successive points (Default: 10 metres)
 
-## usage
+### install
 
     npm install geojson-tidy
 
-## example
+### usage
 
 ```js
 var geojsonTidy = require('geojson-tidy');
 
-var tidy = geojsonTidy.geometry(obj);
+var tidyLineString = geojsonTidy.geometry(obj, [options]);
 ```
+
+### cli
+
+```js
+node -e 
+```
+
+###Input
 
 ## api
 
-### `geojsonTidy.geometry(obj)`
+### `geojsonTidy.geometry(obj, [options])`
 
 Given a geojson object, return contains a tidy geometry with extra points filtered out based on default settings
 
-### `geojsonTidy.geometry(obj, options)`
+### options
 
-Pass options for the filter settings
+Allows you to set custom values for the filter
 
-```
+```js
 {
             minDx: 7,   // Minimum distance between points in metres
             minTx: 5    // Minimum time interval between points in seconds
         }
-        ```
+```
         
         

@@ -105,7 +105,8 @@ function tidy(geojson, options) {
     // Stringify output linestring
     //
 
-    var outputFeatures = [], outputPoints = 0;
+    var outputFeatures = [],
+        outputPoints = 0;
 
     for (i = 0; i < tidyLineString.length; i++) {
 
@@ -117,7 +118,7 @@ function tidy(geojson, options) {
                 "coordinates": tidyLineString[i]
             }
         });
-        
+
         outputPoints += tidyLineString[i].length;
 
     }
@@ -130,11 +131,10 @@ function tidy(geojson, options) {
     //
     // DEBUG: Print IO stats 
     //
-    console.log(outputFeatureCollection);
     var outputCompression = (lineString.length - outputPoints) / lineString.length * 100;
-        console.log("Input points: " + lineString.length + "\nOutput points: " + outputPoints + "\nCompression:" + outputCompression + "%\n");
+    console.log("Input points: " + lineString.length + "\nOutput points: " + outputPoints + "\nCompression:" + outputCompression + "%\n");
 
-
+    console.log(outputFeatureCollection);
     return outputFeatureCollection;
 
 }
