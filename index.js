@@ -38,6 +38,26 @@ function tidy(geojson, options) {
 
 
     //
+    // Create the tidy output feature collection
+    //
+
+    var tidyOutput = {
+        "type": "FeatureCollection",
+        "features": [
+            {
+                "type": "Feature",
+                "properties": {
+                    coordTimes: []
+                },
+                "geometry": {
+                    "type": "LineString",
+                    "coordinates": []
+                }
+            }
+        ]
+    };
+
+    //
     // Loop through the coordinate array of the noisy linestring and build a tidy linestring
     // 
 
@@ -46,7 +66,11 @@ function tidy(geojson, options) {
         // Add first and last points
 
         if (i === 0 || i == lineString.length - 1) {
-            tidyLineString[tidyLineString.length - 1].push(lineString[i]);
+            tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.push(lineString[i]);
+            if (useTimeFiltering) {
+                tidyOutput.features[tidyOutput.features.length - 1].properties.coordTimes.push(timeStamp[i]);
+            }
+            //tidyLineString[tidyLineString.length - 1].push(lineString[i]);
             continue;
         }
 
@@ -65,32 +89,38 @@ function tidy(geojson, options) {
             unit: 'km'
         }) * 1000;
 
+        // Skip point if its too close to each other
+
+        if (Dx < filter.minDx) {
+            continue;
+        }
+
         // Calculate time difference between successive points in seconds
 
-        var Tx;
         if (useTimeFiltering) {
             var time1 = new Date(timeStamp[i]),
                 time2 = new Date(timeStamp[i + 1]),
                 Tx = (time2 - time1) / 1000;
-        }
 
-        // Make sure the points exceed minimum distance
-
-        if (Dx > filter.minDx) {
-
-            // Filter out points at a smaller time interval than minimum
-
-            if (useTimeFiltering && Tx < filter.minTx) {
+            // Skip point if sampled to close to each other
+            if (Tx < filter.minTx) {
                 continue;
-            } else {
-                tidyLineString[tidyLineString.length - 1].push(lineString[i]);
             }
 
-            // WIP: Filter out points which have a greater distance than 1/2 the mean distance as noisy
-            //            if (Math.abs(distance12 - meanDistance) < 0.5 * meanDistance) {
-            //                tidyLineString.push(lineString[i]);
-            //            }
         }
+
+        // Copy the point and timestamp to the tidyOutput
+
+        tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.push(lineString[i]);
+        if (useTimeFiltering) {
+            tidyOutput.features[tidyOutput.features.length - 1].properties.coordTimes.push(timeStamp[i]);
+        }
+
+        // WIP: Filter out points which have a greater distance than 1/2 the mean distance as noisy
+        //            if (Math.abs(distance12 - meanDistance) < 0.5 * meanDistance) {
+        //                tidyLineString.push(lineString[i]);
+        //            }
+
 
         // If tidylinestring exceeds maximum points, split into a new string with the starting point from the previuos end point
 
@@ -101,32 +131,36 @@ function tidy(geojson, options) {
     }
 
 
-    //
-    // Stringify output linestring
-    //
+        //
+        // Stringify output linestring
+        //
 
-    var outputFeatures = [],
-        outputPoints = 0;
+        var outputFeatures = [],
+            outputPoints = 0;
+    /*
+        for (i = 0; i < tidyLineString.length; i++) {
 
-    for (i = 0; i < tidyLineString.length; i++) {
+            outputFeatures.push({
+                "type": "Feature",
+                "properties": {
+                coordTimes: ""
+                },
+                "geometry": {
+                    "type": "LineString",
+                    "coordinates": tidyLineString[i]
+                }
+            });
 
-        outputFeatures.push({
-            "type": "Feature",
-            "properties": {},
-            "geometry": {
-                "type": "LineString",
-                "coordinates": tidyLineString[i]
-            }
+            outputPoints += tidyLineString[i].length;
+
+        }
+
+        var outputFeatureCollection = JSON.stringify({
+            "type": "FeatureCollection",
+            "features": outputFeatures
         });
 
-        outputPoints += tidyLineString[i].length;
-
-    }
-
-    var outputFeatureCollection = JSON.stringify({
-        "type": "FeatureCollection",
-        "features": outputFeatures
-    });
+    */
 
     //
     // DEBUG: Print IO stats 
