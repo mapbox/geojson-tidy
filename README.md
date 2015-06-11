@@ -2,7 +2,7 @@
 
 # geojson-tidy
 
-Filter out noisy points from an input geojson linestring based on:
+Filter out noisy points from an input geojson lineString feature based on:
 - Minumum sampling time between successive points (Default: 5 seconds)
 - Miniumum distance between successive points (Default: 10 metres)
 
@@ -18,13 +18,24 @@ var geojsonTidy = require('geojson-tidy');
 var tidyLineString = geojsonTidy.geometry(obj, [options]);
 ```
 
-### cli
+###input
+Any geojson output file from [togeojson](https://github.com/mapbox/togeojson) is a valid input for geojson-tidy. However only the first feature in the feature collection is processed currently. 
 
-```js
-node -e 
+The timestamp array for the trackpoints need to be stored stored in `features[].properties.coordTimes[]`. Both [Unix time](https://en.wikipedia.org/wiki/Unix_time) or Strings in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) are accepted.
+
+###output
+Is a valid geojson lineString feature object with timestamps stored as
+
 ```
-
-###Input
+{
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "LineString",
+        "coordinates": []
+      }
+    }
+```
 
 ## api
 
