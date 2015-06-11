@@ -132,7 +132,7 @@ function tidy(geojson, options) {
     // DEBUG: Print IO stats 
     //
     var outputCompression = (lineString.length - outputPoints) / lineString.length * 100;
-    console.log("Input points: " + lineString.length + "\nOutput points: " + outputPoints + "\nCompression:" + outputCompression + "%\n");
+    console.log("Input points: " + lineString.length + "\nOutput points: " + outputPoints + "\nPoints removed:" + outputCompression + "%\n");
 
     console.log(outputFeatureCollection);
     return outputFeatureCollection;
