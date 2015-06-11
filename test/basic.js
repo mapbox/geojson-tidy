@@ -8,17 +8,12 @@ var geojsonTidy = require('../'),
 
 test('geojson tidy', function (t) {
 
-    //    t.test('Output not equal to input', function(t) {
-    //        t.notEqual(geojsonTidy.tidy(walk1Json), true);
-    //        t.end();
-    //    });
-
-    t.test('Tidy walk with timestamps', function (t) {
+    t.test('Can process a geometry with timestamps', function (t) {
         t.equal(geojsonTidy.tidy(walk1Json), JSON.stringify(walk1JsonTidy));
         t.end();
     });
 
-    t.test('Tidy walk without timestamps', function (t) {
+    t.test('Can process a geometry without timestamps', function (t) {
         t.equal(geojsonTidy.tidy(walk2Json), JSON.stringify(walk2JsonTidy));
         t.end();
     });

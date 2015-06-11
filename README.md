@@ -26,9 +26,11 @@ Given a geojson object, return contains a tidy geometry with extra points filter
 
 Pass options for the filter settings
 
-`{
+```
+{
             minDx: 7,   // Minimum distance between points in metres
             minTx: 5    // Minimum time interval between points in seconds
-        }`
+        }
+        ```
         
         
