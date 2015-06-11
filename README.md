@@ -6,6 +6,8 @@ Filter out noisy points from an input geojson lineString feature based on:
 - Minumum sampling time between successive points (Default: 5 seconds)
 - Miniumum distance between successive points (Default: 10 metres)
 
+![untitled](https://cloud.githubusercontent.com/assets/126868/8111925/96012394-1032-11e5-9e9e-069746f4dcc9.gif)
+
 ### install
 
     npm install geojson-tidy
@@ -24,7 +26,7 @@ Any geojson output file from [togeojson](https://github.com/mapbox/togeojson) is
 The timestamp array for the trackpoints need to be stored stored in `features[].properties.coordTimes[]`. Both [Unix time](https://en.wikipedia.org/wiki/Unix_time) or Strings in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) are accepted.
 
 ###output
-Is a valid geojson lineString feature object with timestamps stored as
+The output is valid geojson lineString feature object with timestamps stored as
 
 ```
 {
