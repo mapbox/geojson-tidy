@@ -22,6 +22,8 @@ function tidy(geojson, options) {
         },
         maxPoints = 100,
         meanDistance = 0,
+        inputPointCount = 0,
+        outputPointCount = 0,
         useTimeFiltering = false,
         filter = extend(defaults, options);
 
@@ -124,20 +126,23 @@ function tidy(geojson, options) {
 
         // If tidylinestring exceeds maximum points, split into a new string with the starting point from the previuos end point
 
-        if (tidyLineString[tidyLineString.length - 1].length % maxPoints === 0) {
-            tidyLineString.push([]);
-            tidyLineString[tidyLineString.length - 1].push(lineString[i]);
+        if (tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.length % maxPoints === 0) {
+            tidyOutput.features.push([]);
+            tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.push(lineString[i]);
+            if (useTimeFiltering) {
+                tidyOutput.features[tidyOutput.features.length - 1].properties.coordTimes.push(timeStamp[i]);
+            }
         }
     }
 
-
+    /*
         //
         // Stringify output linestring
         //
 
         var outputFeatures = [],
-            outputPoints = 0;
-    /*
+            ;
+
         for (i = 0; i < tidyLineString.length; i++) {
 
             outputFeatures.push({
@@ -165,10 +170,10 @@ function tidy(geojson, options) {
     //
     // DEBUG: Print IO stats 
     //
-    var outputCompression = (lineString.length - outputPoints) / lineString.length * 100;
-    console.log("Input points: " + lineString.length + "\nOutput points: " + outputPoints + "\nPoints removed:" + outputCompression + "%\n");
+//    var outputCompression = (lineString.length - outputPoints) / lineString.length * 100;
+//    console.log("Input points: " + lineString.length + "\nOutput points: " + outputPoints + "\nPoints removed:" + outputCompression + "%\n");
 
-    console.log(outputFeatureCollection);
-    return outputFeatureCollection;
+    console.log(JSON.stringify(tidyOutput));
+    return tidyOutput;
 
 }
