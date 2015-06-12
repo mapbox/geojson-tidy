@@ -51,8 +51,10 @@ Allows you to set custom values for the filter
 
 ```js
 {
-    minDx: 10,  // Minimum distance between points in metres
-    minTx: 5    // Minimum time interval between points in seconds
+    minimumDistance: 10, // Minimum distance between points in metres
+    minimumTime: 5       // Minimum time interval between points in seconds
+    maximumPoints: 100   // Minimum time interval between points in seconds
+    output: "featureCollection" //Output as a feature collection or a single feature
 }
 ```
         
