@@ -15,10 +15,11 @@ function tidy(geojson, options) {
 
     // Set the minimum distance in metres and time interval in seconds between successive coordinates
     var defaults = {
-            minDx: 10,
-            minTx: 5
+            minimumDistance: 10,
+            minimumTime: 5,
+            maximumPoints: 100,
+            output: "FeatureCollection"
         },
-        maxPoints = 100,
         meanDistance = 0,
         inputPointCount = 0,
         outputPointCount = 0,
@@ -33,6 +34,10 @@ function tidy(geojson, options) {
         }
     } catch (e) {
         //        console.log("Timestamps don't match or are missing, disabling time based filtering");
+    }
+
+    function clone(obj) {
+        return JSON.parse(JSON.stringify(obj));
     }
 
     // Create the tidy output feature collection
@@ -51,7 +56,7 @@ function tidy(geojson, options) {
             }
         };
 
-    tidyOutput.features.push(emptyFeature);
+    tidyOutput.features.push(clone(emptyFeature));
 
     // Loop through the coordinate array of the noisy linestring and build a tidy linestring
 
@@ -81,7 +86,7 @@ function tidy(geojson, options) {
         }) * 1000;
 
         // Skip point if its too close to each other
-        if (Dx < filter.minDx) {
+        if (Dx < filter.minimumDistance) {
             continue;
         }
 
@@ -92,7 +97,7 @@ function tidy(geojson, options) {
                 Tx = (time2 - time1) / 1000;
 
             // Skip point if sampled to close to each other
-            if (Tx < filter.minTx) {
+            if (Tx < filter.minimumTime) {
                 continue;
             }
 
@@ -110,9 +115,9 @@ function tidy(geojson, options) {
         //            }
 
 
-        // If tidylinestring exceeds maximum points, split into a new string with the starting point from the previuos end point
-        if (tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.length % maxPoints === 0) {
-            tidyOutput.features.push(emptyFeature);
+        // If feature exceeds maximum points, start a new feature with satrting at the previuos end point
+        if (tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.length % filter.maximumPoints === 0) {
+            tidyOutput.features.push(clone(emptyFeature));
             tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.push(lineString[i]);
             if (useTimeFiltering) {
                 tidyOutput.features[tidyOutput.features.length - 1].properties.coordTimes.push(timeStamp[i]);
@@ -125,7 +130,10 @@ function tidy(geojson, options) {
     //    var outputCompression = (lineString.length - outputPoints) / lineString.length * 100;
     //    console.log("Input points: " + lineString.length + "\nOutput points: " + outputPoints + "\nPoints removed:" + outputCompression + "%\n");
 
-    console.log(JSON.stringify(tidyOutput));
-    return JSON.stringify(tidyOutput);
+    if (defaults.output == "feature") {
+        return JSON.stringify(tidyOutput.features[0]);
+    } else {
+        return JSON.stringify(tidyOutput);
+    }
 
 }
