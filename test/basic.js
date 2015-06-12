@@ -6,7 +6,7 @@ var geojsonTidy = require('../'),
     walk2Json = require('./walk-2.json'), // has no timestamps
     walk1JsonTidy = require('./walk-1-tidy.json'),
     walk2JsonTidy = require('./walk-2-tidy.json');
-    walk2JsonTidyFeature = require('./walk-2-feature.json');
+    walk1JsonTidyFeature = require('./walk-1-feature.json');
 
 test('geojson tidy', function (t) {
 
@@ -24,7 +24,7 @@ test('geojson tidy', function (t) {
         t.equal(geojsonTidy.tidy(walk1Json, {
             "output": "Feature",
             "maximumPoints": 100
-        }), JSON.stringify(walk2JsonTidyFeature));
+        }), JSON.stringify(walk1JsonTidyFeature));
         t.end();
     });
 
