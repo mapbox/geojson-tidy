@@ -26,18 +26,27 @@ Any geojson output file from [togeojson](https://github.com/mapbox/togeojson) is
 The timestamp array for the trackpoints need to be stored stored in `features[].properties.coordTimes[]`. Both [Unix time](https://en.wikipedia.org/wiki/Unix_time) or Strings in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) are accepted.
 
 ###output
-The output is valid geojson lineString feature object with timestamps stored as
+The default output is a geojson `FeatureCollection` with the timestamps stored as 
 
 ```
 {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "LineString",
-        "coordinates": []
-      }
-    }
+            "type": "FeatureCollection",
+            "features": [
+        {
+          "type": "Feature",
+          "properties": {
+            "coordTimes": []
+          },
+          "geometry": {
+            "type": "LineString",
+            "coordinates": []
+          }
+        }
+    ]
+}
 ```
+
+To use with the Mapbox [matchstick](https://github.com/mapbox/matchstick), you would want to generate only a single feature by using the `{"output":"Feature"}` option
 
 ## API
 
@@ -52,9 +61,9 @@ Allows you to set custom values for the filter
 ```js
 {
     minimumDistance: 10, // Minimum distance between points in metres
-    minimumTime: 5       // Minimum time interval between points in seconds
-    maximumPoints: 100   // Minimum time interval between points in seconds
-    output: "featureCollection" //Output as a feature collection or a single feature
+    minimumTime: 5      // Minimum time interval between points in seconds
+    maximumPoints: 100  // Minimum time interval between points in seconds
+    output: "Feature"   // Output just a single Feature instead of the default geojson FeatureCollection
 }
 ```
         

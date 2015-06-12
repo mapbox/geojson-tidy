@@ -130,7 +130,7 @@ function tidy(geojson, options) {
     //    var outputCompression = (lineString.length - outputPoints) / lineString.length * 100;
     //    console.log("Input points: " + lineString.length + "\nOutput points: " + outputPoints + "\nPoints removed:" + outputCompression + "%\n");
 
-    if (defaults.output == "feature") {
+    if (defaults.output == "Feature") {
         return JSON.stringify(tidyOutput.features[0]);
     } else {
         return JSON.stringify(tidyOutput);

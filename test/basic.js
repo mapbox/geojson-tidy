@@ -22,7 +22,7 @@ test('geojson tidy', function (t) {
 
     t.test('Filter a single feature of 100 points with timestamps from the output', function (t) {
         t.equal(geojsonTidy.tidy(walk1Json, {
-            "output": "feature",
+            "output": "Feature",
             "maximumPoints": 100
         }), JSON.stringify(walk2JsonTidyFeature));
         t.end();
