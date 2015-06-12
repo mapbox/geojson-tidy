@@ -4,7 +4,6 @@ var extend = require('extend'),
 module.exports.tidy = tidy;
 
 
-
 // Public function
 
 function tidy(geojson, options) {
@@ -20,21 +19,7 @@ function tidy(geojson, options) {
             maximumPoints: 100,
             output: "FeatureCollection"
         },
-        meanDistance = 0,
-        inputPointCount = 0,
-        outputPointCount = 0,
-        useTimeFiltering = false,
         filter = extend(defaults, options);
-
-    // Catch errors
-    try {
-        // If number of timestamps match number of points, use time filtering
-        if (lineString.length == timeStamp.length) {
-            useTimeFiltering = true;
-        }
-    } catch (e) {
-        //        console.log("Timestamps don't match or are missing, disabling time based filtering");
-    }
 
     function clone(obj) {
         return JSON.parse(JSON.stringify(obj));
@@ -65,7 +50,7 @@ function tidy(geojson, options) {
         // Add first and last points
         if (i === 0 || i == lineString.length - 1) {
             tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.push(lineString[i]);
-            if (useTimeFiltering) {
+            if (timeStamp) {
                 tidyOutput.features[tidyOutput.features.length - 1].properties.coordTimes.push(timeStamp[i]);
             }
             continue;
@@ -91,7 +76,7 @@ function tidy(geojson, options) {
         }
 
         // Calculate sampling time diference between successive points in seconds
-        if (useTimeFiltering) {
+        if (timeStamp) {
             var time1 = new Date(timeStamp[i]),
                 time2 = new Date(timeStamp[i + 1]),
                 Tx = (time2 - time1) / 1000;
@@ -105,35 +90,25 @@ function tidy(geojson, options) {
 
         // Copy the point and timestamp to the tidyOutput
         tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.push(lineString[i]);
-        if (useTimeFiltering) {
+        if (timeStamp) {
             tidyOutput.features[tidyOutput.features.length - 1].properties.coordTimes.push(timeStamp[i]);
         }
 
-        // WIP: Filter out points which have a greater distance than 1/2 the mean distance as noisy
-        //            if (Math.abs(distance12 - meanDistance) < 0.5 * meanDistance) {
-        //                tidyLineString.push(lineString[i]);
-        //            }
-
-
-        // If feature exceeds maximum points, start a new feature with satrting at the previuos end point
+        // If feature exceeds maximum points, start a new feature beginning at the previuos end point
         if (tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.length % filter.maximumPoints === 0) {
             tidyOutput.features.push(clone(emptyFeature));
             tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.push(lineString[i]);
-            if (useTimeFiltering) {
+            if (timeStamp) {
                 tidyOutput.features[tidyOutput.features.length - 1].properties.coordTimes.push(timeStamp[i]);
             }
         }
     }
 
     // DEBUG: Print IO stats 
-
     //    var outputCompression = (lineString.length - outputPoints) / lineString.length * 100;
     //    console.log("Input points: " + lineString.length + "\nOutput points: " + outputPoints + "\nPoints removed:" + outputCompression + "%\n");
 
-    if (defaults.output == "Feature") {
-        return JSON.stringify(tidyOutput.features[0]);
-    } else {
-        return JSON.stringify(tidyOutput);
-    }
-
+    // Your tidy geojson is ready!
+    return JSON.stringify(tidyOutput);
+    
 }

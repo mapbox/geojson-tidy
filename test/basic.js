@@ -6,7 +6,7 @@ var geojsonTidy = require('../'),
     walk2Json = require('./walk-2.json'), // has no timestamps
     walk1JsonTidy = require('./walk-1-tidy.json'),
     walk2JsonTidy = require('./walk-2-tidy.json');
-    walk1JsonTidyFeature = require('./walk-1-feature.json');
+    walk1JsonTidyFeature = require('./walk-1-resampled.json');
 
 test('geojson tidy', function (t) {
 
@@ -20,10 +20,11 @@ test('geojson tidy', function (t) {
         t.end();
     });
 
-    t.test('Filter a single feature of 100 points with timestamps from the output', function (t) {
+    t.test('Process a feature collection with custom minimumDistance minimumTime and maximumPoints', function (t) {
         t.equal(geojsonTidy.tidy(walk1Json, {
-            "output": "Feature",
-            "maximumPoints": 100
+            "minimumDistance": 20,
+            "minimumTime": 7,
+            "maximumPoints": 10
         }), JSON.stringify(walk1JsonTidyFeature));
         t.end();
     });
