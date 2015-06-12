@@ -61,9 +61,8 @@ Allows you to set custom values for the filter
 ```js
 {
     minimumDistance: 10, // Minimum distance between points in metres
-    minimumTime: 5      // Minimum time interval between points in seconds
-    maximumPoints: 100  // Minimum time interval between points in seconds
-    output: "Feature"   // Output just a single Feature instead of the default geojson FeatureCollection
+    minimumTime: 5,      // Minimum time interval between points in seconds
+    maximumPoints: 100   // Maximum points in a feature
 }
 ```
         
