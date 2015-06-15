@@ -2,7 +2,7 @@
   "name": "geojson-tidy",
   "version": "0.1.3",
   "description": "tidy up a geojson input by filtering out noisy point clusters",
-  "main": "index.js",
+  "main": "geojson-tidy.js",
   "directories": {
     "test": "test"
   },
@@ -25,6 +25,7 @@
     "extend": "^2.0.1",
     "fs": "0.0.2",
     "haversine": "^1.0.0",
+    "minimist": "^1.1.1",
     "tape": "^4.0.0",
     "turf-simplify": "^1.0.3"
   },

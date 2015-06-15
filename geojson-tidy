@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+var tidy = require('./'),
+    argv = require('minimist')(process.argv.slice(2)),
+    fs = require('fs');
+
+var filename = argv._[0] || '';
+
+console.log("Hey");
+
+function help() {
+    console.error('Usage: togeojson [-f format] FILE\n' +
+        '-f    file format. if not given, will be detected by filename');
+}
