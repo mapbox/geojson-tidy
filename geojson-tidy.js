@@ -7,11 +7,13 @@ module.exports.tidy = tidy;
 
 function tidy(geojson, options) {
 
+    options = options || {};
+    
     // Set the minimum distance in metres and time interval in seconds between successive coordinates
     var filter = {
-            minimumDistance: options && options.minimumDistance || 10,
-            minimumTime: options && options.minimumTime || 5,
-            maximumPoints: options && options.maximumPoints || 100
+            minimumDistance: options.minimumDistance || 10,
+            minimumTime: options.minimumTime || 5,
+            maximumPoints: options.maximumPoints || 100
         };
 
     // Create the tidy output feature collection
@@ -44,9 +46,8 @@ function tidy(geojson, options) {
             continue;
         }
 
-        var simplifiedGeojson = geojson.features[featureIndex],
-            lineString = simplifiedGeojson.geometry.coordinates,
-            timeStamp = simplifiedGeojson.properties.coordTimes;
+        var lineString = geojson.features[featureIndex].geometry.coordinates,
+            timeStamp = geojson.features[featureIndex].properties.coordTimes;
 
         tidyOutput.features.push(clone(emptyFeature));
 
