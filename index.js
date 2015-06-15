@@ -8,18 +8,25 @@ module.exports.tidy = tidy;
 
 function tidy(geojson, options) {
 
-    var lineString = geojson.features[0].geometry.coordinates,
-        timeStamp = geojson.features[0].properties.coordTimes,
-        tidyLineString = [[]];
-
     // Set the minimum distance in metres and time interval in seconds between successive coordinates
     var defaults = {
+            tolerance: 0.0001,
             minimumDistance: 10,
             minimumTime: 5,
             maximumPoints: 100,
             output: "FeatureCollection"
         },
         filter = extend(defaults, options);
+
+    //Extract the input 
+
+    var simplifiedGeojson = geojson.features[0],
+        lineString = simplifiedGeojson.geometry.coordinates,
+        timeStamp = simplifiedGeojson.properties.coordTimes;
+
+    console.log(JSON.stringify(simplify(geojson.features[0], defaults.tolerance, false)));
+
+
 
     function clone(obj) {
         return JSON.parse(JSON.stringify(obj));
@@ -104,11 +111,11 @@ function tidy(geojson, options) {
         }
     }
 
-    // DEBUG: Print IO stats 
-    //    var outputCompression = (lineString.length - outputPoints) / lineString.length * 100;
-    //    console.log("Input points: " + lineString.length + "\nOutput points: " + outputPoints + "\nPoints removed:" + outputCompression + "%\n");
+    // DEBUG
+    // Stats
+//    console.log(JSON.stringify(tidyOutput));
 
     // Your tidy geojson is ready!
     return JSON.stringify(tidyOutput);
-    
+
 }

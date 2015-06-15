@@ -25,7 +25,8 @@
     "extend": "^2.0.1",
     "fs": "0.0.2",
     "haversine": "^1.0.0",
-    "tape": "^4.0.0"
+    "tape": "^4.0.0",
+    "turf-simplify": "^1.0.3"
   },
   "devDependencies": ""
 }

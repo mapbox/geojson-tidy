@@ -26,7 +26,7 @@ Any geojson output file from [togeojson](https://github.com/mapbox/togeojson) is
 The timestamp array for the trackpoints need to be stored stored in `features[].properties.coordTimes[]`. Both [Unix time](https://en.wikipedia.org/wiki/Unix_time) or Strings in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) are accepted.
 
 ###output
-The default output is a geojson `FeatureCollection` with the timestamps stored as 
+The default output is a geojson `FeatureCollection` with the timestamps stored in the `ccordTimes[]` property
 
 ```
 {
@@ -65,5 +65,11 @@ Allows you to set custom values for the filter
     maximumPoints: 100   // Maximum points in a feature
 }
 ```
-        
+
+### algorithm
+1. Read a geojson FeatureCollection
+2. Loop through the features for LineString features
+3. Compare successive coordinates of the feature
+4. If the dinstance between the points or timestamp difference is too small, delete it
+5. Write a tidied geojson FeatureCollection with reduced points
         
