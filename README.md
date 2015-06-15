@@ -73,6 +73,7 @@ Usage: geojson-tidy [-d minimum distance between points] [-t minimum sample time
 ```
 
 **Example**
+
 `./geojson-tidy test/wal-1.json -d 10 -t 5 -m 100 > output.json `
 
 

@@ -1,5 +1,4 @@
-var extend = require('extend'),
-    haversine = require('haversine');
+var haversine = require('haversine');
 
 module.exports.tidy = tidy;
 
@@ -9,13 +8,11 @@ module.exports.tidy = tidy;
 function tidy(geojson, options) {
 
     // Set the minimum distance in metres and time interval in seconds between successive coordinates
-    var defaults = {
-            minimumDistance: 10,
-            minimumTime: 5,
-            maximumPoints: 100,
-            output: "FeatureCollection"
-        },
-        filter = extend(defaults, options);
+    var filter = {
+            minimumDistance: options && options.minimumDistance || 10,
+            minimumTime: options && options.minimumTime || 5,
+            maximumPoints: options && options.maximumPoints || 100
+        };
 
     // Create the tidy output feature collection
     var tidyOutput = {
