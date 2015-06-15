@@ -1,5 +1,5 @@
 var geojsonTidy = require('../'),
-    test = require('tape');
+    test = require('tape'); 
 
 test('geojson tidy', function (t) {
 

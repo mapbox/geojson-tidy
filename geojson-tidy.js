@@ -40,7 +40,7 @@ function tidy(geojson, options) {
 
     for (var featureIndex = 0; featureIndex < geojson.features.length; featureIndex++) {
 
-        // Skip non LineString features
+        // Skip non LineString features in the collections
         if (geojson.features[featureIndex].geometry.type != 'LineString') {
             continue;
         }

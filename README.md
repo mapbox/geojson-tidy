@@ -2,9 +2,10 @@
 
 # geojson-tidy
 
-Filter out noisy points from an input geojson lineString feature based on:
-- Minumum sampling time between successive points (Default: 5 seconds)
-- Miniumum distance between successive points (Default: 10 metres)
+Create a tidy geojson by resmapling points in the feature based on sampling time and distance. Handy when geometries that have been converted from a noisy GPS/GPX output.
+- Set a minimum  sampling time between successive points (Default: 5 seconds)
+- Set a minimum distance between successive points (Default: 10 metres)
+- Set a maximum feature length to split long segments (Default: 100 points)
 
 ![untitled](https://cloud.githubusercontent.com/assets/126868/8111925/96012394-1032-11e5-9e9e-069746f4dcc9.gif)
 
@@ -21,7 +22,7 @@ var tidyLineString = geojsonTidy.geometry(obj, [options]);
 ```
 
 ###input
-Any geojson output file from [togeojson](https://github.com/mapbox/togeojson) is a valid input for geojson-tidy. Only LineString features are processed currently.
+Any geojson file from [togeojson](https://github.com/mapbox/togeojson) is a valid input for geojson-tidy. Only LineString features are processed currently.
 
 The timestamp array for the trackpoints need to be stored stored in `features[].properties.coordTimes[]`. Both [Unix time](https://en.wikipedia.org/wiki/Unix_time) or Strings in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) are accepted.
 
@@ -30,17 +31,17 @@ The default output is a geojson `FeatureCollection` with the timestamps stored i
 
 ```
 {
-            "type": "FeatureCollection",
-            "features": [
+    "type": "FeatureCollection",
+    "features": [
         {
-          "type": "Feature",
-          "properties": {
-            "coordTimes": []
-          },
-          "geometry": {
-            "type": "LineString",
-            "coordinates": []
-          }
+            "type": "Feature",
+            "properties": {
+                "coordTimes": []
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": []
+            }
         }
     ]
 }
