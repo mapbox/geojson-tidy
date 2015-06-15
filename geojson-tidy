@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 
-var tidy = require('./'),
+var tidy = require('./').tidy,
     argv = require('minimist')(process.argv.slice(2)),
     fs = require('fs');
 
 var filename = argv._[0] || '';
 
-console.log("Hey");
+output = tidy(JSON.parse(fs.readFileSync(filename, 'utf8')), {"minimumDistance": argv.d, "minimumTime": argv.t, "maximumPoints": argv.m});
+
+console.log(output);
 
 function help() {
     console.error('Usage: togeojson [-f format] FILE\n' +
