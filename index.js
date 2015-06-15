@@ -41,7 +41,12 @@ function tidy(geojson, options) {
 
     //Loop through input features
 
-    for (var featureIndex = 0; featureIndex < geojson.features.length; featureIndex++) {
+    for ( var featureIndex = 0; featureIndex < geojson.features.length; featureIndex++) {
+
+        // Skip non LineString features
+        if ( geojson.features[featureIndex].geometry.type != 'LineString'){
+            continue;
+        }
 
         var simplifiedGeojson = geojson.features[featureIndex],
             lineString = simplifiedGeojson.geometry.coordinates,

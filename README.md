@@ -21,7 +21,7 @@ var tidyLineString = geojsonTidy.geometry(obj, [options]);
 ```
 
 ###input
-Any geojson output file from [togeojson](https://github.com/mapbox/togeojson) is a valid input for geojson-tidy. However only the first feature in the feature collection is processed currently. 
+Any geojson output file from [togeojson](https://github.com/mapbox/togeojson) is a valid input for geojson-tidy. Only LineString features are processed currently.
 
 The timestamp array for the trackpoints need to be stored stored in `features[].properties.coordTimes[]`. Both [Unix time](https://en.wikipedia.org/wiki/Unix_time) or Strings in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) are accepted.
 
