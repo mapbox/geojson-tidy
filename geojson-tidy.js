@@ -10,7 +10,6 @@ function tidy(geojson, options) {
 
     // Set the minimum distance in metres and time interval in seconds between successive coordinates
     var defaults = {
-            tolerance: 0.0001,
             minimumDistance: 10,
             minimumTime: 5,
             maximumPoints: 100,

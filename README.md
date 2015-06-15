@@ -66,6 +66,16 @@ Allows you to set custom values for the filter
 }
 ```
 
+## CLI
+```
+./geojson-tidy -h
+Usage: geojson-tidy [-d minimum distance between points] [-t minimum sample time between points] [-m maximum number of points in a single line feature] FILE
+```
+
+**Example**
+`./geojson-tidy test/wal-1.json -d 10 -t 5 -m 100 > output.json `
+
+
 ## Algorithm
 1. Read a geojson FeatureCollection
 2. Loop through the features for LineString features

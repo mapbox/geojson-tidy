@@ -6,11 +6,18 @@ var tidy = require('./').tidy,
 
 var filename = argv._[0] || '';
 
+if (!filename) {
+    return help();
+}
+
+// Output
+
 output = tidy(JSON.parse(fs.readFileSync(filename, 'utf8')), {"minimumDistance": argv.d, "minimumTime": argv.t, "maximumPoints": argv.m});
 
 console.log(output);
 
+// Help
 function help() {
-    console.error('Usage: togeojson [-f format] FILE\n' +
+    console.error('Usage: geojson-tidy [-d minimum distance between points] [-t minimum sample time between points] [-m maximum number of points in a single line feature] FILE\n' +
         '-f    file format. if not given, will be detected by filename');
 }
