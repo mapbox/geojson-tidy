@@ -5,8 +5,10 @@ var geojsonTidy = require('../'),
     walk1Json = require('./walk-1.json'),
     walk2Json = require('./walk-2.json'), // has no timestamps
     walk1JsonTidy = require('./walk-1-tidy.json'),
-    walk2JsonTidy = require('./walk-2-tidy.json');
-    walk1JsonTidyFeature = require('./walk-1-resampled.json');
+    walk2JsonTidy = require('./walk-2-tidy.json'),
+    walk1JsonTidyFeature = require('./walk-1-resampled.json'),
+    multipleFeatures = require('./cross-country.json'),
+    multipleFeaturesTidy = require('./cross-country-tidy.json');
 
 test('geojson tidy', function (t) {
 
@@ -29,8 +31,13 @@ test('geojson tidy', function (t) {
         t.end();
     });
 
+    t.test('Process a feature collection with multiple features', function (t) {
+        t.equal(geojsonTidy.tidy(multipleFeatures), JSON.stringify(multipleFeaturesTidy));
+        t.end();
+    });
+
     t.end();
 });
 
 // Test map matching
-// curl -X POST -d @test/walk-2-feature.json "https://api-directions-johan-matching.tilestream.net/v4/directions/matching/mapbox.driving.json?access_token=pk.eyJ1IjoicGxhbmVtYWQiLCJhIjoiemdYSVVLRSJ9.g3lbg_eN0kztmsfIPxa9MQ" --header "Content-Type:application/json"
+// curl -X POST -d @test/cross-country.json "https://api-directions-johan-matching.tilestream.net/v4/directions/matching/mapbox.driving.json?access_token=pk.eyJ1IjoicGxhbmVtYWQiLCJhIjoiemdYSVVLRSJ9.g3lbg_eN0kztmsfIPxa9MQ" --header "Content-Type:application/json"
