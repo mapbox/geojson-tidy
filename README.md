@@ -66,7 +66,7 @@ Allows you to set custom values for the filter
 }
 ```
 
-### algorithm
+## Algorithm
 1. Read a geojson FeatureCollection
 2. Loop through the features for LineString features
 3. Compare successive coordinates of the feature
