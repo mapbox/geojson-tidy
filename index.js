@@ -24,10 +24,6 @@ function tidy(geojson, options) {
         lineString = simplifiedGeojson.geometry.coordinates,
         timeStamp = simplifiedGeojson.properties.coordTimes;
 
-    console.log(JSON.stringify(simplify(geojson.features[0], defaults.tolerance, false)));
-
-
-
     function clone(obj) {
         return JSON.parse(JSON.stringify(obj));
     }
