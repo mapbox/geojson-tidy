@@ -1,38 +1,41 @@
 var geojsonTidy = require('../'),
-    test = require('tape'),
-    fs = require('fs'),
-    //    fs = require('fs'),
-    walk1Json = require('./walk-1.json'),
-    walk2Json = require('./walk-2.json'), // has no timestamps
-    walk1JsonTidy = require('./walk-1-tidy.json'),
-    walk2JsonTidy = require('./walk-2-tidy.json'),
-    walk1JsonTidyFeature = require('./walk-1-resampled.json'),
-    multipleFeatures = require('./cross-country.json'),
-    multipleFeaturesTidy = require('./cross-country-tidy.json');
+    test = require('tape');
 
 test('geojson tidy', function (t) {
 
-    t.test('Process a feature collection with timestamps', function (t) {
-        t.equal(geojsonTidy.tidy(walk1Json), JSON.stringify(walk1JsonTidy));
+    t.test('Process a feature collection without timestamps', function (t) {
+        t.equal(
+            geojsonTidy.tidy(require('./walk-2.json')),
+            JSON.stringify(require('./walk-2-tidy.json'))
+        );
         t.end();
     });
 
-    t.test('Process a feature collection without timestamps', function (t) {
-        t.equal(geojsonTidy.tidy(walk2Json), JSON.stringify(walk2JsonTidy));
+    t.test('Process a feature collection with timestamps', function (t) {
+        t.equal(
+            geojsonTidy.tidy(require('./walk-1.json')),
+            JSON.stringify(require('./walk-1-tidy.json'))
+        );
         t.end();
     });
 
     t.test('Process a feature collection with custom minimumDistance minimumTime and maximumPoints', function (t) {
-        t.equal(geojsonTidy.tidy(walk1Json, {
-            "minimumDistance": 20,
-            "minimumTime": 7,
-            "maximumPoints": 10
-        }), JSON.stringify(walk1JsonTidyFeature));
+        t.equal(
+            geojsonTidy.tidy(require('./walk-1.json'), {
+                "minimumDistance": 20,
+                "minimumTime": 7,
+                "maximumPoints": 10
+            }),
+            JSON.stringify(require('./walk-1-resampled.json'))
+        );
         t.end();
     });
 
     t.test('Process a feature collection with multiple features', function (t) {
-        t.equal(geojsonTidy.tidy(multipleFeatures), JSON.stringify(multipleFeaturesTidy));
+        t.equal(
+            geojsonTidy.tidy(require('./cross-country.json')),
+            JSON.stringify(require('./cross-country-tidy.json'))
+        );
         t.end();
     });
 
