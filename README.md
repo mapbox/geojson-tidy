@@ -27,7 +27,7 @@ Any geojson file from [togeojson](https://github.com/mapbox/togeojson) is a vali
 The timestamp array for the trackpoints need to be stored stored in `features[].properties.coordTimes[]`. Both [Unix time](https://en.wikipedia.org/wiki/Unix_time) or Strings in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) are accepted.
 
 ###output
-The default output is a geojson `FeatureCollection` with the timestamps stored in the `ccordTimes[]` property
+The default output is a stringified geojson `FeatureCollection` with the timestamps stored in the `ccordTimes[]` property
 
 ```
 {
@@ -75,7 +75,7 @@ Usage: geojson-tidy [-d minimum distance between points] [-t minimum sample time
 
 **Example**
 
-`./geojson-tidy test/wal-1.json -d 10 -t 5 -m 100 > output.json `
+`./geojson-tidy test/walk-1.json -d 10 -t 5 -m 100 > output.json `
 
 
 ## Algorithm

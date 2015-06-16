@@ -11,7 +11,7 @@
     "url": "git@github.com:mapbox/geojson-tidy.git"
   },
   "scripts": {
-    "test": "tape test/basic.js"
+    "test": "tape test/test.js"
   },
   "keywords": [
     "geojson",
