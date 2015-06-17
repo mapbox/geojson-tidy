@@ -47,6 +47,7 @@ function tidy(geojson, options) {
 
         var lineString = geojson.features[featureIndex].geometry.coordinates,
             timeStamp = geojson.features[featureIndex].properties.coordTimes;
+        
 
         tidyOutput.features.push(clone(emptyFeature));
 

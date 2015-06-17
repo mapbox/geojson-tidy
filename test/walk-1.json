@@ -1,12 +1,15 @@
 {
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "06/04/2015 Washington, District of Columbia",
-        "time": "2015-06-05T01:07:54Z",
-        "coordTimes": [
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "06/04/2015 Washington, District of Columbia",
+                "time": "2015-06-05T01:07:54Z",
+                "stroke": "#555555",
+                "stroke-width": 2.7,
+                "stroke-opacity": 1,
+                "coordTimes": [
           "2015-06-05T01:07:54Z",
           "2015-06-05T01:08:00Z",
           "2015-06-05T01:08:04Z",
@@ -431,10 +434,10 @@
           "2015-06-05T01:41:15Z",
           "2015-06-05T01:41:18Z"
         ]
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
           [
             -77.024365,
             38.908573,
@@ -2551,7 +2554,7 @@
             28.8
           ]
         ]
-      }
+            }
     }
   ]
 }
