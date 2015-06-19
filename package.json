@@ -1,6 +1,6 @@
 {
   "name": "geojson-tidy",
-  "version": "0.1.6",
+  "version": "1.0.0",
   "description": "tidy up a geojson input by filtering out noisy point clusters",
   "main": "geojson-tidy.js",
   "directories": {
