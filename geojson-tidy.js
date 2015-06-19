@@ -118,7 +118,7 @@ function tidy(geojson, options) {
     // DEBUG
     //    console.log(JSON.stringify(tidyOutput));
 
-    // Your tidy geojson is ready!
-    return JSON.stringify(tidyOutput);
+    // Your tidy geojson is served
+    return tidyOutput;
 
 }

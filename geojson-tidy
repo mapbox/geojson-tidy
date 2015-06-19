@@ -14,7 +14,7 @@ if (!filename) {
 
 output = tidy(JSON.parse(fs.readFileSync(filename, 'utf8')), {"minimumDistance": argv.d, "minimumTime": argv.t, "maximumPoints": argv.m});
 
-console.log(output);
+console.log(JSON.stringify(output));
 
 // Help
 function help() {

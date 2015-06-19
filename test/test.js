@@ -4,36 +4,36 @@ var geojsonTidy = require('../'),
 test('geojson tidy', function (t) {
 
     t.test('Process a feature collection without timestamps', function (t) {
-        t.equal(
+        t.deepEqual (
             geojsonTidy.tidy(require('./walk-2.json')),
-            JSON.stringify(require('./walk-2-tidy.json'))
+            require('./walk-2-tidy.json')
         );
         t.end();
     });
 
     t.test('Process a feature collection with timestamps', function (t) {
-        t.equal(
+        t.deepEqual(
             geojsonTidy.tidy(require('./walk-1.json')),
-            JSON.stringify(require('./walk-1-tidy.json'))
+            require('./walk-1-tidy.json')
         );
         t.end();
     });
 
     t.test('Process a feature collection with custom minimumDistance minimumTime and maximumPoints', function (t) {
-        t.equal(
+        t.deepEqual(
             geojsonTidy.tidy(require('./walk-1.json'), {
                 "minimumDistance": 20,
                 "minimumTime": 7,
                 "maximumPoints": 10
             }),
-            JSON.stringify(require('./walk-1-resampled.json'))
+            require('./walk-1-resampled.json')
         );
         t.end();
     });
 
     t.test('Process a feature collection with multiple features', function (t) {
-        t.equal(
-            geojsonTidy.tidy(require('./cross-country.json')),
+        t.deepEqual(
+            JSON.stringify(geojsonTidy.tidy(require('./cross-country.json'))),
             JSON.stringify(require('./cross-country-tidy.json'))
         );
         t.end();
