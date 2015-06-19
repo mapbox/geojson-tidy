@@ -11,7 +11,9 @@
     "url": "git@github.com:mapbox/geojson-tidy.git"
   },
   "scripts": {
-    "test": "tape test/test.js"
+    "test": "tape test/test.js",
+    "build": "mkdir -p dist && browserify -s tidy geojson-tidy.js > dist/geojson-tidy.js && uglifyjs dist/geojson-tidy.js -c -m > dist/geojson-tidy.min.js"
+
   },
   "keywords": [
     "geojson",
@@ -24,8 +26,11 @@
   "dependencies": {
     "fs": "0.0.2",
     "haversine": "^1.0.0",
-    "minimist": "^1.1.1",
-    "tape": "^4.0.0"
+    "minimist": "^1.1.1"
   },
-  "devDependencies": ""
+  "devDependencies": {
+    "browserify": "7.0.2",
+    "uglify-js": "2.4.16",
+    "tape": "^4.0.0"
+  }
 }

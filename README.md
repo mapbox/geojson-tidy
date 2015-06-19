@@ -84,4 +84,27 @@ Usage: geojson-tidy [-d minimum distance between points] [-t minimum sample time
 3. Compare successive coordinates of the feature
 4. If the dinstance between the points or timestamp difference is too small, delete it
 5. Write a tidied geojson FeatureCollection with reduced points
-        
+
+
+## Development
+
+### Build with Browserify
+
+To run this project in the browser, you first need to build it with [browserify](http://browserify.org/):
+
+```sh
+git clone git@github.com:mapbox/geojson-tidy.git
+
+cd geojson-tidy
+
+# to run tests
+npm install
+
+# to build geojson-tidy
+npm run build
+```
+
+`geojson-tidy.js` and `geojson-tidy.min.js` are **built files** generated
+from `geojson-tidy.js` by `browserify`. If you find an issue, it either needs to be
+fixed in `index.js`, or in one of the libraries mapbox-mapmatch uses
+to parse formats.
