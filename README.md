@@ -18,7 +18,7 @@ Create a tidy geojson by resmapling points in the feature based on sampling time
 ```js
 var geojsonTidy = require('geojson-tidy');
 
-var tidyLineString = geojsonTidy.geometry(obj, [options]);
+var tidyLineString = geojsonTidy.tidy(obj, [options]);
 ```
 
 ###input
@@ -51,7 +51,7 @@ To use with the Mapbox [matchstick](https://github.com/mapbox/matchstick), you w
 
 ## API
 
-### `geojsonTidy.geometry(obj, [options])`
+### `geojsonTidy.tidy(obj, [options])`
 
 Given a geojson object, return contains a tidy geometry with extra points filtered out based on default settings
 
