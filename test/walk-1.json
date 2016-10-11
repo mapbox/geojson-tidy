@@ -9,7 +9,7 @@
                 "stroke": "#555555",
                 "stroke-width": 2.7,
                 "stroke-opacity": 1,
-                "coordTimes": [
+                "timestamps": [
           "2015-06-05T01:07:54Z",
           "2015-06-05T01:08:00Z",
           "2015-06-05T01:08:04Z",

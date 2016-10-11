@@ -23,7 +23,6 @@ function tidy(geojson, options) {
     var emptyFeature = {
         "type": "Feature",
         "properties": {
-            "coordTimes": []
         },
         "geometry": {
             "type": "LineString",
@@ -46,8 +45,24 @@ function tidy(geojson, options) {
         }
 
         var lineString = geojson.features[featureIndex].geometry.coordinates,
-            timeStamp = geojson.features[featureIndex].properties.coordTimes;
-        
+            timestamps = geojson.features[featureIndex].properties.timestamps;
+        var headings, speeds, altitudes, accuracies, altitudeAccuracies;
+        if(typeof geojson.features[featureIndex].properties.altitudes !== 'undefined'){
+          altitudes = geojson.features[featureIndex].properties.altitudes;
+        }
+        if(typeof geojson.features[featureIndex].properties.accuracies !== 'undefined'){
+          accuracies = geojson.features[featureIndex].properties.accuracies;
+        }
+        if(typeof geojson.features[featureIndex].properties.altitudeAccuracies !== 'undefined'){
+          altitudeAccuracies = geojson.features[featureIndex].properties.altitudeAccuracies;
+        }
+        if(typeof geojson.features[featureIndex].properties.headings !== 'undefined'){
+          headings = geojson.features[featureIndex].properties.headings;
+        }
+        if(typeof geojson.features[featureIndex].properties.speeds !== 'undefined'){
+          speeds = geojson.features[featureIndex].properties.speeds;
+        }
+
 
         tidyOutput.features.push(clone(emptyFeature));
 
@@ -58,8 +73,41 @@ function tidy(geojson, options) {
             // Add first and last points
             if (i === 0 || i == lineString.length - 1) {
                 tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.push(lineString[i]);
-                if (timeStamp) {
-                    tidyOutput.features[tidyOutput.features.length - 1].properties.coordTimes.push(timeStamp[i]);
+                if (timestamps && typeof timestamps[i] !== 'undefined') {
+                    if(typeof tidyOutput.features[tidyOutput.features.length - 1].properties.timestamps === 'undefined'){
+                      tidyOutput.features[tidyOutput.features.length - 1].properties.timestamps = [];
+                    }
+                    tidyOutput.features[tidyOutput.features.length - 1].properties.timestamps.push(timestamps[i]);
+                }
+                if (altitudes) {
+                    if(typeof tidyOutput.features[tidyOutput.features.length - 1].properties.altitudes === 'undefined'){
+                      tidyOutput.features[tidyOutput.features.length - 1].properties.altitudes = [];
+                    }
+                    tidyOutput.features[tidyOutput.features.length - 1].properties.altitudes.push(altitudes[i]);
+                }
+                if (accuracies) {
+                    if(typeof tidyOutput.features[tidyOutput.features.length - 1].properties.accuracies === 'undefined'){
+                      tidyOutput.features[tidyOutput.features.length - 1].properties.accuracies = [];
+                    }
+                    tidyOutput.features[tidyOutput.features.length - 1].properties.accuracies.push(accuracies[i]);
+                }
+                if (altitudeAccuracies) {
+                    if(typeof tidyOutput.features[tidyOutput.features.length - 1].properties.altitudeAccuracies === 'undefined'){
+                      tidyOutput.features[tidyOutput.features.length - 1].properties.altitudeAccuracies = [];
+                    }
+                    tidyOutput.features[tidyOutput.features.length - 1].properties.altitudeAccuracies.push(altitudeAccuracies[i]);
+                }
+                if (headings) {
+                    if(typeof tidyOutput.features[tidyOutput.features.length - 1].properties.headings === 'undefined'){
+                      tidyOutput.features[tidyOutput.features.length - 1].properties.headings = [];
+                    }
+                    tidyOutput.features[tidyOutput.features.length - 1].properties.headings.push(headings[i]);
+                }
+                if (speeds) {
+                    if(typeof tidyOutput.features[tidyOutput.features.length - 1].properties.speeds === 'undefined'){
+                      tidyOutput.features[tidyOutput.features.length - 1].properties.speeds = [];
+                    }
+                    tidyOutput.features[tidyOutput.features.length - 1].properties.speeds.push(speeds[i]);
                 }
                 continue;
             }
@@ -84,10 +132,10 @@ function tidy(geojson, options) {
             }
 
             // Calculate sampling time diference between successive points in seconds
-            if (timeStamp) {
+            if (timestamps) {
 
-                var time1 = new Date(timeStamp[i]);
-                var time2 = new Date(timeStamp[i + 1]);
+                var time1 = new Date(timestamps[i]);
+                var time2 = new Date(timestamps[i + 1]);
 
                 var Tx = (time2 - time1) / 1000;
 
@@ -100,16 +148,82 @@ function tidy(geojson, options) {
 
             // Copy the point and timestamp to the tidyOutput
             tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.push(lineString[i]);
-            if (timeStamp) {
-                tidyOutput.features[tidyOutput.features.length - 1].properties.coordTimes.push(timeStamp[i]);
+            if (timestamps && typeof timestamps[i] !== 'undefined') {
+                if(typeof tidyOutput.features[tidyOutput.features.length - 1].properties.timestamps === 'undefined'){
+                  tidyOutput.features[tidyOutput.features.length - 1].properties.timestamps = [];
+                }
+                tidyOutput.features[tidyOutput.features.length - 1].properties.timestamps.push(timestamps[i]);
+            }
+            if (altitudes) {
+                if(typeof tidyOutput.features[tidyOutput.features.length - 1].properties.altitudes === 'undefined'){
+                  tidyOutput.features[tidyOutput.features.length - 1].properties.altitudes = [];
+                }
+                tidyOutput.features[tidyOutput.features.length - 1].properties.altitudes.push(altitudes[i]);
+            }
+            if (accuracies) {
+                if(typeof tidyOutput.features[tidyOutput.features.length - 1].properties.accuracies === 'undefined'){
+                  tidyOutput.features[tidyOutput.features.length - 1].properties.accuracies = [];
+                }
+                tidyOutput.features[tidyOutput.features.length - 1].properties.accuracies.push(accuracies[i]);
+            }
+            if (altitudeAccuracies) {
+                if(typeof tidyOutput.features[tidyOutput.features.length - 1].properties.altitudeAccuracies === 'undefined'){
+                  tidyOutput.features[tidyOutput.features.length - 1].properties.altitudeAccuracies = [];
+                }
+                tidyOutput.features[tidyOutput.features.length - 1].properties.altitudeAccuracies.push(altitudeAccuracies[i]);
+            }
+            if (headings) {
+                if(typeof tidyOutput.features[tidyOutput.features.length - 1].properties.headings === 'undefined'){
+                  tidyOutput.features[tidyOutput.features.length - 1].properties.headings = [];
+                }
+                tidyOutput.features[tidyOutput.features.length - 1].properties.headings.push(headings[i]);
+            }
+            if (speeds) {
+                if(typeof tidyOutput.features[tidyOutput.features.length - 1].properties.speeds === 'undefined'){
+                  tidyOutput.features[tidyOutput.features.length - 1].properties.speeds = [];
+                }
+                tidyOutput.features[tidyOutput.features.length - 1].properties.speeds.push(speeds[i]);
             }
 
             // If feature exceeds maximum points, start a new feature beginning at the previuos end point
             if (tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.length % filter.maximumPoints === 0) {
                 tidyOutput.features.push(clone(emptyFeature));
                 tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.push(lineString[i]);
-                if (timeStamp) {
-                    tidyOutput.features[tidyOutput.features.length - 1].properties.coordTimes.push(timeStamp[i]);
+                if (timestamps && typeof timestamps[i] !== 'undefined') {
+                    if(typeof tidyOutput.features[tidyOutput.features.length - 1].properties.timestamps === 'undefined'){
+                      tidyOutput.features[tidyOutput.features.length - 1].properties.timestamps = [];
+                    }
+                    tidyOutput.features[tidyOutput.features.length - 1].properties.timestamps.push(timestamps[i]);
+                }
+                if (altitudes) {
+                    if(typeof tidyOutput.features[tidyOutput.features.length - 1].properties.altitudes === 'undefined'){
+                      tidyOutput.features[tidyOutput.features.length - 1].properties.altitudes = [];
+                    }
+                    tidyOutput.features[tidyOutput.features.length - 1].properties.altitudes.push(altitudes[i]);
+                }
+                if (accuracies) {
+                    if(typeof tidyOutput.features[tidyOutput.features.length - 1].properties.accuracies === 'undefined'){
+                      tidyOutput.features[tidyOutput.features.length - 1].properties.accuracies = [];
+                    }
+                    tidyOutput.features[tidyOutput.features.length - 1].properties.accuracies.push(accuracies[i]);
+                }
+                if (altitudeAccuracies) {
+                    if(typeof tidyOutput.features[tidyOutput.features.length - 1].properties.altitudeAccuracies === 'undefined'){
+                      tidyOutput.features[tidyOutput.features.length - 1].properties.altitudeAccuracies = [];
+                    }
+                    tidyOutput.features[tidyOutput.features.length - 1].properties.altitudeAccuracies.push(altitudeAccuracies[i]);
+                }
+                if (headings) {
+                    if(typeof tidyOutput.features[tidyOutput.features.length - 1].properties.headings === 'undefined'){
+                      tidyOutput.features[tidyOutput.features.length - 1].properties.headings = [];
+                    }
+                    tidyOutput.features[tidyOutput.features.length - 1].properties.headings.push(headings[i]);
+                }
+                if (speeds) {
+                    if(typeof tidyOutput.features[tidyOutput.features.length - 1].properties.speeds === 'undefined'){
+                      tidyOutput.features[tidyOutput.features.length - 1].properties.speeds = [];
+                    }
+                    tidyOutput.features[tidyOutput.features.length - 1].properties.speeds.push(speeds[i]);
                 }
             }
         }
