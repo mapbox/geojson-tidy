@@ -44,9 +44,16 @@ function tidy(geojson, options) {
             continue;
         }
 
-        var lineString = geojson.features[featureIndex].geometry.coordinates,
-            timestamps = geojson.features[featureIndex].properties.timestamps;
-        var headings, speeds, altitudes, accuracies, altitudeAccuracies;
+        var lineString = geojson.features[featureIndex].geometry.coordinates;
+        var timestamps, coordTimesSupport;
+        if(typeof geojson.features[featureIndex].properties.timestamps !== 'undefined'){
+          timestamps = geojson.features[featureIndex].properties.timestamps;
+        }
+        else if(typeof geojson.features[featureIndex].properties.coordTimes !== 'undefined'){
+          coordTimesSupport = true;
+          timestamps = geojson.features[featureIndex].properties.coordTimes;
+        }
+        var altitudes, accuracies, altitudeAccuracies, headings, speeds;
         if(typeof geojson.features[featureIndex].properties.altitudes !== 'undefined'){
           altitudes = geojson.features[featureIndex].properties.altitudes;
         }
@@ -78,6 +85,12 @@ function tidy(geojson, options) {
                       tidyOutput.features[tidyOutput.features.length - 1].properties.timestamps = [];
                     }
                     tidyOutput.features[tidyOutput.features.length - 1].properties.timestamps.push(timestamps[i]);
+                }
+                if(coordTimesSupport){
+                  tidyOutput.features[tidyOutput.features.length - 1].properties.coordTimes = tidyOutput.features[tidyOutput.features.length - 1].properties.timestamps;
+                  if (i == lineString.length - 1) {
+                    delete(tidyOutput.features[tidyOutput.features.length - 1].properties.timestamps);
+                  }
                 }
                 if (altitudes) {
                     if(typeof tidyOutput.features[tidyOutput.features.length - 1].properties.altitudes === 'undefined'){
@@ -154,6 +167,9 @@ function tidy(geojson, options) {
                 }
                 tidyOutput.features[tidyOutput.features.length - 1].properties.timestamps.push(timestamps[i]);
             }
+            if(coordTimesSupport){
+              tidyOutput.features[tidyOutput.features.length - 1].properties.coordTimes = tidyOutput.features[tidyOutput.features.length - 1].properties.timestamps;
+            }
             if (altitudes) {
                 if(typeof tidyOutput.features[tidyOutput.features.length - 1].properties.altitudes === 'undefined'){
                   tidyOutput.features[tidyOutput.features.length - 1].properties.altitudes = [];
@@ -187,6 +203,9 @@ function tidy(geojson, options) {
 
             // If feature exceeds maximum points, start a new feature beginning at the previuos end point
             if (tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.length % filter.maximumPoints === 0) {
+                if(coordTimesSupport){
+                  delete(tidyOutput.features[tidyOutput.features.length - 1].properties.timestamps);
+                }
                 tidyOutput.features.push(clone(emptyFeature));
                 tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.push(lineString[i]);
                 if (timestamps && typeof timestamps[i] !== 'undefined') {
@@ -194,6 +213,9 @@ function tidy(geojson, options) {
                       tidyOutput.features[tidyOutput.features.length - 1].properties.timestamps = [];
                     }
                     tidyOutput.features[tidyOutput.features.length - 1].properties.timestamps.push(timestamps[i]);
+                }
+                if(coordTimesSupport){
+                  tidyOutput.features[tidyOutput.features.length - 1].properties.coordTimes = tidyOutput.features[tidyOutput.features.length - 1].properties.timestamps;
                 }
                 if (altitudes) {
                     if(typeof tidyOutput.features[tidyOutput.features.length - 1].properties.altitudes === 'undefined'){

@@ -4,7 +4,7 @@
     {
       "type": "Feature",
       "properties": {
-        "timestamps": [
+        "coordTimes": [
           "2015-06-05T01:07:54Z",
           "2015-06-05T01:08:10Z",
           "2015-06-05T01:08:15Z",
@@ -616,7 +616,7 @@
     {
       "type": "Feature",
       "properties": {
-        "timestamps": [
+        "coordTimes": [
           "2015-06-05T01:24:57Z",
           "2015-06-05T01:25:05Z",
           "2015-06-05T01:25:10Z",
@@ -1228,7 +1228,7 @@
     {
       "type": "Feature",
       "properties": {
-        "timestamps": [
+        "coordTimes": [
           "2015-06-05T01:37:43Z",
           "2015-06-05T01:37:48Z",
           "2015-06-05T01:37:54Z",
