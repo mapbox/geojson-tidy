@@ -13,7 +13,6 @@
   "scripts": {
     "test": "tape test/test.js",
     "build": "mkdir -p dist && browserify -s tidy geojson-tidy.js > dist/geojson-tidy.js && uglifyjs dist/geojson-tidy.js -c -m > dist/geojson-tidy.min.js"
-
   },
   "keywords": [
     "geojson",
@@ -29,7 +28,13 @@
   },
   "devDependencies": {
     "browserify": "7.0.2",
-    "uglify-js": "2.4.16",
-    "tape": "^4.0.0"
+    "cz-conventional-changelog": "^1.2.0",
+    "tape": "^4.0.0",
+    "uglify-js": "2.4.16"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
