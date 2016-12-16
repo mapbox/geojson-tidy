@@ -21,12 +21,14 @@ var geojsonTidy = require('geojson-tidy');
 var tidyLineString = geojsonTidy.tidy(obj, [options]);
 ```
 
-###input
+### Input
 Any geojson file from [togeojson](https://github.com/mapbox/togeojson) is a valid input for geojson-tidy. Only LineString features are processed currently.
 
-The timestamp array for the trackpoints need to be stored stored in `features[].properties.coordTimes[]`. Both [Unix time](https://en.wikipedia.org/wiki/Unix_time) or Strings in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) are accepted.
+The timestamp array for the trackpoints need to be stored stored in `features[].properties.coordTimes[]`.
+Timestamps can either be JavaScript numeric [Time Values](http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.1)
+(milliseconds since epoch) or strings in the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format.
 
-###output
+### Output
 The default output is a geojson `FeatureCollection` with the timestamps stored in the `cordTimes[]` property. All other properties are stripped out.
 
 ```
