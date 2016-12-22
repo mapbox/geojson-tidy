@@ -11,12 +11,12 @@ Create a tidy geojson by resmapling points in the feature based on sampling time
 
 ### install
 
-    npm install geojson-tidy
+    npm install @mapbox/geojson-tidy
 
 ### usage
 
 ```js
-var geojsonTidy = require('geojson-tidy');
+var geojsonTidy = require('@mapbox/geojson-tidy');
 
 var tidyLineString = geojsonTidy.tidy(obj, [options]);
 ```
