@@ -4,7 +4,7 @@
     {
       "type": "Feature",
       "properties": {
-        "coordTimes": []
+        "timestamps": []
       },
       "geometry": {
         "type": "LineString",
@@ -47,7 +47,7 @@
     {
       "type": "Feature",
       "properties": {
-        "coordTimes": []
+        "timestamps": []
       },
       "geometry": {
         "type": "LineString",
