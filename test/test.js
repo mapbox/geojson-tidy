@@ -32,7 +32,7 @@ test('geojson tidy', function (t) {
         t.end();
     });
 
-    t.test('Process a feature collection with custom maximumPoints', function (t) {
+    t.test('Process a feature collection with custom minimumDistance, minimumTime and  maximumPoints', function (t) {
         t.deepEqual(
             geojsonTidy.tidy(require('./walk-1.json'), {
                 "minimumDistance": 20,
