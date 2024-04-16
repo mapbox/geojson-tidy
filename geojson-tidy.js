@@ -51,8 +51,6 @@ function tidy(geojson, options) {
         tidyOutput.features.push(clone(emptyFeature));
 
         // Loop through the coordinate array of the noisy linestring and build a tidy linestring
-        // var tidyPoints = [];
-        // var tidyTimestamps = [];
         var keepIdxs = [];
 
         for (var i = 0; i < lineString.length; i++) {
