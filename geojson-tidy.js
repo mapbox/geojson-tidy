@@ -14,7 +14,6 @@ function tidy(geojson, options) {
         minimumTime: options.minimumTime || 0,
         maximumPoints: options.maximumPoints || 100
     };
-
     // Create the tidy output feature collection
     var tidyOutput = {
         "type": "FeatureCollection",
@@ -24,7 +23,6 @@ function tidy(geojson, options) {
         "type": "Feature",
         "properties": {
             "coordTimes": [],
-            'indices': []
         },
         "geometry": {
             "type": "LineString",
@@ -81,7 +79,6 @@ function tidy(geojson, options) {
 
             // Skip point if its too close to each other
             if (Dx < filter.minimumDistance) {
-                console.log(`Skipping point ${i} as distance is ${Dx}`)
                 continue;
             }
 
@@ -95,26 +92,18 @@ function tidy(geojson, options) {
 
                 // Skip point if sampled to close to each other
                 if (Tx < filter.minimumTime) {
-                    console.log(`Skipping point ${i} as time is ${Tx}`)
                     continue;
                 }
 
             }
-
-            console.log(`Keeping point ${i}. Distance: ${Dx}, time: ${Tx}`)
-            console.log(`Point ${i}: ${lineString[i]}`)
             keepIdxs.push(i)
         }
 
 
-        // If we have < maximumPoints points, just return the entire set
-        if (keepIdxs.length <= filter.maximumPoints) {
-            console.log("Keeping all points left after time/distance filtering")
-        } else {
-            console.log("Tidy points length exceeded max")
-            console.log("Length before filtering: ", keepIdxs.length)
-            // Subsample keepIdxs so that we only keep < maxLength points
-            // by randomly removing points until we hit maxLength
+        // If we have > maximumPoints points, take a random sample.
+        // Otherwise just return the entire set
+        if (keepIdxs.length > filter.maximumPoints) {
+            // Randomly remove points until we hit maxLength
 
             // Split off the first and last indices as we always want to keep these
             const firstIdx = keepIdxs[0]
@@ -128,14 +117,11 @@ function tidy(geojson, options) {
                 keepIdxs = keepIdxs.filter((element, index) => index !== removeIdx)
             }
             keepIdxs = [firstIdx, ...keepIdxs, lastIdx]
-            console.log("Length after filtering: ", keepIdxs.length)
         }
 
         // Now that we know which indices we want to keep, save the corresponding points
         keepIdxs.forEach(function (item, index) {
             tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.push(lineString[item]);
-            // for validation purposes, record the index as well
-            tidyOutput.features[tidyOutput.features.length - 1].properties.indices.push(item);
             if (timeStamp) {
                 tidyOutput.features[tidyOutput.features.length - 1].properties.coordTimes.push(timeStamp[item]);
             }
