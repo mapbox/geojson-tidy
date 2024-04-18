@@ -125,11 +125,7 @@ function tidy(geojson, options) {
             }
           });
     
-        continue;
     }
-
-    // DEBUG
-    // console.log(JSON.stringify(tidyOutput));
 
     // Your tidy geojson is served
     return tidyOutput;
