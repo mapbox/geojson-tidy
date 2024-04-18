@@ -106,7 +106,7 @@ function tidy(geojson, options) {
             // Split off the first and last indices as we always want to keep these
             const firstIdx = keepIdxs[0]
             const lastIdx = keepIdxs[keepIdxs.length - 1]
-            keepIdxs = keepIdxs.slice(1, -2)
+            keepIdxs = keepIdxs.slice(1, -1)
             
             // until we hit the desired length:
             while (keepIdxs.length > (filter.maximumPoints - 2)) {
