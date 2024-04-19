@@ -2,6 +2,17 @@ var haversine = require('haversine');
 
 module.exports.tidy = tidy;
 
+function shuffle(arr) {
+    // Fisher-Yates shuffle
+    for (let i = arr.length -1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i+1));
+      let k = arr[i];
+      arr[i] = arr[j];
+      arr[j] = k;
+    }
+    return arr;
+  }
+
 // Public function
 
 function tidy(geojson, options) {
@@ -108,12 +119,10 @@ function tidy(geojson, options) {
             const lastIdx = keepIdxs[keepIdxs.length - 1]
             keepIdxs = keepIdxs.slice(1, -1)
             
-            // until we hit the desired length:
-            while (keepIdxs.length > (filter.maximumPoints - 2)) {
-                // randomly select one of the elements to remove
-                removeIdx = Math.floor(Math.random() * keepIdxs.length)
-                keepIdxs = keepIdxs.filter((element, index) => index !== removeIdx)
-            }
+            // Shuffle the array and take the number of points we want
+            keepIdxs = shuffle(keepIdxs).slice(0, filter.maximumPoints - 2)
+            
+            // Add back the first/last points
             keepIdxs = [firstIdx, ...keepIdxs, lastIdx]
         }
 
