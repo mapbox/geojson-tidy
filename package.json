@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:mapbox/geojson-tidy.git"
+    "url": "git+ssh://git@github.com/mapbox/geojson-tidy.git"
   },
   "scripts": {
     "test": "tape test/test.js",
