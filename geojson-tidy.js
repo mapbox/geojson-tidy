@@ -2,6 +2,17 @@ var haversine = require('haversine');
 
 module.exports.tidy = tidy;
 
+function shuffle(arr) {
+    // Fisher-Yates shuffle
+    for (let i = arr.length -1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i+1));
+      let k = arr[i];
+      arr[i] = arr[j];
+      arr[j] = k;
+    }
+    return arr;
+  }
+
 // Public function
 
 function tidy(geojson, options) {
@@ -10,11 +21,10 @@ function tidy(geojson, options) {
 
     // Set the minimum distance in metres and time interval in seconds between successive coordinates
     var filter = {
-        minimumDistance: options.minimumDistance || 10,
-        minimumTime: options.minimumTime || 5,
+        minimumDistance: options.minimumDistance || 0,
+        minimumTime: options.minimumTime || 0,
         maximumPoints: options.maximumPoints || 100
     };
-
     // Create the tidy output feature collection
     var tidyOutput = {
         "type": "FeatureCollection",
@@ -23,7 +33,7 @@ function tidy(geojson, options) {
     var emptyFeature = {
         "type": "Feature",
         "properties": {
-            "coordTimes": []
+            "coordTimes": [],
         },
         "geometry": {
             "type": "LineString",
@@ -52,26 +62,24 @@ function tidy(geojson, options) {
         tidyOutput.features.push(clone(emptyFeature));
 
         // Loop through the coordinate array of the noisy linestring and build a tidy linestring
+        var keepIdxs = [];
 
         for (var i = 0; i < lineString.length; i++) {
 
             // Add first and last points
             if (i === 0 || i == lineString.length - 1) {
-                tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.push(lineString[i]);
-                if (timeStamp) {
-                    tidyOutput.features[tidyOutput.features.length - 1].properties.coordTimes.push(timeStamp[i]);
-                }
+                keepIdxs.push(i);
                 continue;
             }
 
-            // Calculate distance between successive points in metres
+            // Calculate distance between this point and the last point we included
             var point1 = {
-                latitude: lineString[i][1],
-                longitude: lineString[i][0]
+                latitude: lineString[keepIdxs[keepIdxs.length - 1]][1],
+                longitude: lineString[keepIdxs[keepIdxs.length - 1]][0]
             };
             var point2 = {
-                latitude: lineString[i + 1][1],
-                longitude: lineString[i + 1][0]
+                latitude: lineString[i][1],
+                longitude: lineString[i][0]
             };
 
             var Dx = haversine(point1, point2, {
@@ -86,8 +94,8 @@ function tidy(geojson, options) {
             // Calculate sampling time diference between successive points in seconds
             if (timeStamp) {
 
-                var time1 = new Date(timeStamp[i]);
-                var time2 = new Date(timeStamp[i + 1]);
+                var time1 = new Date(timeStamp[keepIdxs[keepIdxs.length - 1]]);
+                var time2 = new Date(timeStamp[i]);
 
                 var Tx = (time2 - time1) / 1000;
 
@@ -97,26 +105,36 @@ function tidy(geojson, options) {
                 }
 
             }
-
-            // Copy the point and timestamp to the tidyOutput
-            tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.push(lineString[i]);
-            if (timeStamp) {
-                tidyOutput.features[tidyOutput.features.length - 1].properties.coordTimes.push(timeStamp[i]);
-            }
-
-            // If feature exceeds maximum points, start a new feature beginning at the previuos end point
-            if (tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.length % filter.maximumPoints === 0) {
-                tidyOutput.features.push(clone(emptyFeature));
-                tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.push(lineString[i]);
-                if (timeStamp) {
-                    tidyOutput.features[tidyOutput.features.length - 1].properties.coordTimes.push(timeStamp[i]);
-                }
-            }
+            keepIdxs.push(i)
         }
-    }
 
-    // DEBUG
-    //    console.log(JSON.stringify(tidyOutput));
+
+        // If we have > maximumPoints points, take a random sample.
+        // Otherwise just return the entire set
+        if (keepIdxs.length > filter.maximumPoints) {
+            // Randomly remove points until we hit maxLength
+
+            // Split off the first and last indices as we always want to keep these
+            const firstIdx = keepIdxs[0]
+            const lastIdx = keepIdxs[keepIdxs.length - 1]
+            keepIdxs = keepIdxs.slice(1, -1)
+            
+            // Shuffle the array and take the number of points we want
+            keepIdxs = shuffle(keepIdxs).slice(0, filter.maximumPoints - 2)
+            
+            // Add back the first/last points
+            keepIdxs = [firstIdx, ...keepIdxs, lastIdx]
+        }
+
+        // Now that we know which indices we want to keep, save the corresponding points
+        keepIdxs.forEach(function (item, index) {
+            tidyOutput.features[tidyOutput.features.length - 1].geometry.coordinates.push(lineString[item]);
+            if (timeStamp) {
+                tidyOutput.features[tidyOutput.features.length - 1].properties.coordTimes.push(timeStamp[item]);
+            }
+          });
+    
+    }
 
     // Your tidy geojson is served
     return tidyOutput;

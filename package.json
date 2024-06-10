@@ -1,6 +1,6 @@
 {
   "name": "@mapbox/geojson-tidy",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "tidy up a geojson input by filtering out noisy point clusters",
   "main": "geojson-tidy.js",
   "directories": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:mapbox/geojson-tidy.git"
+    "url": "git+ssh://git@github.com/mapbox/geojson-tidy.git"
   },
   "scripts": {
     "test": "tape test/test.js",
