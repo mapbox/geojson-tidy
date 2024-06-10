@@ -1,6 +1,6 @@
 {
   "name": "@mapbox/geojson-tidy",
-  "version": "2.0.0-rc",
+  "version": "2.0.0",
   "description": "tidy up a geojson input by filtering out noisy point clusters",
   "main": "geojson-tidy.js",
   "directories": {
